@@ -2,18 +2,26 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>中国語単語</title>
 <style>
+* {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
     color: #2c3e50;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     min-height: 100vh;
+    -webkit-user-select: none;
+    user-select: none;
 }
+
 h1 {
     font-size: 2.5em;
     margin-bottom: 30px;
@@ -21,10 +29,53 @@ h1 {
     color: #34495e;
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+.status-card {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f3f0 100%);
+    color: #2c3e50;
+    border-radius: 10px;
+    border: 1px solid rgba(74,144,226,0.2);
+    box-shadow: 0 2px 8px rgba(52,73,94,0.08);
+    text-align: center;
+}
+
+.init-button {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    padding: 18px 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    margin: 15px auto;
+    display: block;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(231,76,60,0.4);
+    transition: all 0.2s ease;
+    min-height: 60px;
+    min-width: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.init-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(231,76,60,0.3);
+}
+
+.init-button:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
 }
+
 ul li {
     margin-bottom: 15px;
     padding: 15px;
@@ -34,410 +85,496 @@ ul li {
     box-shadow: 0 4px 12px rgba(52,73,94,0.1);
     border: 1px solid rgba(74,144,226,0.1);
     transition: all 0.3s ease;
+}
+
+.word-container {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
-ul li:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(52,73,94,0.15);
-    border-color: rgba(74,144,226,0.3);
-}
+
 .word-number {
     background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
     color: white;
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: 1em;
     flex-shrink: 0;
 }
-.word-content {
+
+.word-info {
     flex: 1;
+    min-width: 200px;
 }
+
+.chinese-text {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
 .pronunciation {
-    display: inline-block;
-    vertical-align: bottom;
-    margin-left: 5px;
-}
-.katakana {
-    color: #95a5a6;
-    font-size: 0.75em;
-    display: block;
-    line-height: 1;
-    margin-bottom: 2px;
-}
-.pinyin {
+    color: #7f8c8d;
     font-size: 0.9em;
-    line-height: 1;
+    line-height: 1.2;
 }
-button {
-    padding: 12px 20px;
-    margin-left: 10px;
-    font-size: 1em;
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-    color: #ffffff;
+
+.katakana {
+    display: block;
+    font-size: 0.85em;
+    color: #95a5a6;
+}
+
+.pinyin {
+    display: block;
+    font-style: italic;
+}
+
+.play-button {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(74,144,226,0.3);
-    transition: all 0.3s ease;
-    font-weight: 500;
-    min-height: 44px; /* iOS推奨のタッチターゲットサイズ */
-    min-width: 44px;
-    -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 3px 12px rgba(39,174,96,0.3);
+    transition: all 0.2s ease;
+    min-height: 50px;
+    min-width: 100px;
+    position: relative;
+    overflow: hidden;
 }
-button:hover {
-    background: linear-gradient(135deg, #357abd 0%, #2e6da4 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(74,144,226,0.4);
+
+.play-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 6px rgba(39,174,96,0.2);
 }
-button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(74,144,226,0.3);
-}
-button:disabled {
+
+.play-button:disabled {
     background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
     cursor: not-allowed;
     transform: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-.error-message {
-    color: #e74c3c;
+
+.play-button.playing {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.message {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
     font-size: 0.9em;
-    margin-top: 8px;
-    display: none;
     font-weight: 500;
-}
-.success-message {
-    color: #27ae60;
-    font-size: 0.9em;
-    margin-top: 8px;
-    display: none;
-    font-weight: 500;
-}
-.init-button {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    color: white;
-    padding: 15px 30px;
-    font-size: 1.1em;
-    border: none;
-    border-radius: 10px;
-    margin: 20px auto;
-    display: block;
-    cursor: pointer;
-    box-shadow: 0 3px 10px rgba(231,76,60,0.4);
-    transition: all 0.3s ease;
-    min-height: 50px;
-    -webkit-tap-highlight-color: transparent;
-}
-.init-button:hover {
-    background: linear-gradient(135deg, #c0392b 0%, #a93226 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(231,76,60,0.5);
-}
-.init-button:active {
-    transform: translateY(0);
-}
-.init-message {
     text-align: center;
-    padding: 20px;
-    background: rgba(231,76,60,0.1);
-    border: 2px solid rgba(231,76,60,0.3);
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-weight: 500;
-    color: #c0392b;
+    display: none;
 }
+
+.error-message {
+    background: #fadbd8;
+    color: #c0392b;
+    border: 1px solid #f1948a;
+}
+
+.success-message {
+    background: #d5f4e6;
+    color: #27ae60;
+    border: 1px solid #82e0aa;
+}
+
+.warning-message {
+    background: #fef9e7;
+    color: #b7950b;
+    border: 1px solid #f7dc6f;
+}
+
+#debugInfo {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    z-index: 1000;
+    max-width: 200px;
+    display: none;
+}
+
 @media (max-width: 600px) {
     body {
         padding: 15px;
     }
+    
     h1 {
         font-size: 2em;
     }
-    ul li {
-        padding: 12px;
+    
+    .word-container {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
     }
-    .word-number {
-        width: 30px;
-        height: 30px;
-        font-size: 0.8em;
-    }
-    .word-content {
+    
+    .word-info {
         width: 100%;
+        min-width: auto;
     }
-    button {
-        padding: 12px 16px;
-        font-size: 0.9em;
-        margin-left: 0;
-        margin-top: 8px;
-        display: block;
+    
+    .play-button {
         width: 100%;
+        padding: 18px;
+        font-size: 1.2em;
     }
-    .pronunciation {
-        display: block;
-        margin-left: 0;
-        margin-top: 5px;
-    }
-    .katakana {
-        display: block;
-        margin-bottom: 1px;
-    }
-    .pinyin {
-        display: block;
+    
+    .init-button {
+        width: 100%;
+        padding: 20px;
     }
 }
 </style>
 </head>
 <body>
-<h1>中国語単語</h1>
 
-<div id="initSection" style="margin-bottom: 25px;">
-    <div class="init-message">
-        📱 <strong>iOS/iPhone用：</strong>音声を有効にするために、まず下のボタンをタップしてください
+<h1>中国語単語学習</h1>
+
+<div class="status-card" id="statusCard">
+    <div id="initSection">
+        <h3 style="margin-top: 0; color: #e74c3c;">📱 iPhone/iOS用セットアップ</h3>
+        <p>音声機能を有効にするため、下のボタンを<strong>必ずタップ</strong>してください</p>
+        <button class="init-button" id="initAudioBtn">🔊 音声機能を開始</button>
+        <div class="message warning-message" id="initWarning">
+            音声機能の初期化中です...
+        </div>
     </div>
-    <button class="init-button" id="initAudioBtn">🔊 音声を有効にする</button>
-</div>
-
-<div style="margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, #ffffff 0%, #f5f3f0 100%); color: #2c3e50; border-radius: 10px; border: 1px solid rgba(74,144,226,0.2); box-shadow: 0 2px 8px rgba(52,73,94,0.08);">
-    <strong style="color: #4a90e2;">💡 使用方法：</strong>ブラウザの音声合成機能を使用して中国語を読み上げます。
+    
+    <div id="readySection" style="display: none;">
+        <h3 style="margin-top: 0; color: #27ae60;">✅ 準備完了</h3>
+        <p>各単語の再生ボタンをタップして音声を聞くことができます</p>
+    </div>
 </div>
 
 <ul id="wordsList"></ul>
 
+<div id="debugInfo"></div>
+
 <script>
 const words = [
-  {"chinese" : "第" , "pinyin" : "dì" , "katakana" : "ディー" },
-  {"chinese" : "一" , "pinyin" : "yī" , "katakana" : "イー" },
-  {"chinese" : "课" , "pinyin" : "kè" , "katakana" : "クー" },
-  {"chinese" : "你" , "pinyin" : "nǐ" , "katakana" : "ニー" },
-  {"chinese" : "叫" , "pinyin" : "jiào" , "katakana" : "ジャオ" },
-  {"chinese" : "什么" , "pinyin" : "shénme" , "katakana" : "シェンムー" },
-  {"chinese" : "名字" , "pinyin" : "míngzi" , "katakana" : "ミンズー" },
   {"chinese" : "你好" , "pinyin" : "nǐ hǎo" , "katakana" : "ニーハオ" },
-  {"chinese" : "老师" , "pinyin" : "lǎoshi" , "katakana" : "ラオシー" },
-  {"chinese" : "好" , "pinyin" : "hǎo" , "katakana" : "ハオ" },
+  {"chinese" : "谢谢" , "pinyin" : "xiè xie" , "katakana" : "シエシエ" },
   {"chinese" : "我" , "pinyin" : "wǒ" , "katakana" : "ウォー" },
-  {"chinese" : "很" , "pinyin" : "hěn" , "katakana" : "ヘン" },
-  {"chinese" : "好听" , "pinyin" : "hǎotīng" , "katakana" : "ハオティン" },
-  {"chinese" : "谢谢" , "pinyin" : "Xièxie" , "katakana" : "シエシエ" },
+  {"chinese" : "你" , "pinyin" : "nǐ" , "katakana" : "ニー" },
+  {"chinese" : "好" , "pinyin" : "hǎo" , "katakana" : "ハオ" },
   {"chinese" : "是" , "pinyin" : "shì" , "katakana" : "シー" },
-  {"chinese" : "中国" , "pinyin" : "Zhōngguó" , "katakana" : "ジョングオ" },
-  {"chinese" : "哪个" , "pinyin" : "nǎr" , "katakana" : "ナール" },
-  {"chinese" : "人" , "pinyin" : "rén" , "katakana" : "レン" },
-  {"chinese" : "苏州" , "pinyin" : "Sūzhōu" , "katakana" : "スージョウ" },
-  {"chinese" : "地方" , "pinyin" : "dìfang" , "katakana" : "ディーファン" },
-  {"chinese" : "您好" , "pinyin" : "Nín hǎo" , "katakana" : "ニンハオ" },
-  {"chinese" : "你们好" , "pinyin" : "Nǐmen hǎo" , "katakana" : "ニーメンハオ" },
-  {"chinese" : "大家好" , "pinyin" : "Dàjiā hǎo" , "katakana" : "ダージャーハオ" },
-  {"chinese" : "早上好" , "pinyin" : "Zǎoshang hǎo" , "katakana" : "ザオシャンハオ" },
-  {"chinese" : "下午好" , "pinyin" : "Xiàwǔ hǎo" , "katakana" : "シャーウーハオ" },
-  {"chinese" : "晚上好" , "pinyin" : "Wǎnshang hǎo" , "katakana" : "ワンシャンハオ" },
   {"chinese" : "不" , "pinyin" : "bù" , "katakana" : "ブー" },
-  {"chinese" : "不客气" , "pinyin" : "Bú kèqi" , "katakana" : "ブークーチー" },
-  {"chinese" : "不用谢" , "pinyin" : "Bú yòng xiè" , "katakana" : "ブーヨンシエ" },
-  {"chinese" : "对不起" , "pinyin" : "Duìbuqǐ" , "katakana" : "ドゥイブチー" },
-  {"chinese" : "没关系" , "pinyin" : "Méi guānxi" , "katakana" : "メイグアンシー" },
-  {"chinese" : "请多关照" , "pinyin" : "Qǐng duō guānzhào" , "katakana" : "チンドゥオグアンジャオ" },
-  {"chinese" : "请多指教" , "pinyin" : "Qǐng duō zhǐjiāo" , "katakana" : "チンドゥオジージャオ" },
-  {"chinese" : "日本" , "pinyin" : "Rìběn" , "katakana" : "リーベン" },
-  {"chinese" : "中国" , "pinyin" : "Zhōngguó" , "katakana" : "ジョングオ" },
-  {"chinese" : "韩国" , "pinyin" : "Hánguó" , "katakana" : "ハングオ" },
-  {"chinese" : "美国" , "pinyin" : "Měiguó" , "katakana" : "メイグオ" },
-  {"chinese" : "英国" , "pinyin" : "Yīngguó" , "katakana" : "インググオ" },
-  {"chinese" : "德国" , "pinyin" : "Déguó" , "katakana" : "ドゥーグオ" },
-  {"chinese" : "法国" , "pinyin" : "Fǎguó" , "katakana" : "ファーグオ" },
-  {"chinese" : "俄罗斯" , "pinyin" : "Éluósī" , "katakana" : "オルオスー" },
-  {"chinese" : "您" , "pinyin" : "nín" , "katakana" : "ニン" },
-  {"chinese" : "贵姓" , "pinyin" : "guìxìng" , "katakana" : "グイシン" },
-  {"chinese" : "哪" , "pinyin" : "nǎ" , "katakana" : "ナー" },
-  {"chinese" : "国" , "pinyin" : "guó" , "katakana" : "グオ" }
+  {"chinese" : "中国" , "pinyin" : "zhōng guó" , "katakana" : "ジョングオ" },
+  {"chinese" : "日本" , "pinyin" : "rì běn" , "katakana" : "リーベン" },
+  {"chinese" : "名字" , "pinyin" : "míng zi" , "katakana" : "ミンズー" }
 ];
 
-let audioContext;
 let audioInitialized = false;
+let currentUtterance = null;
+let debugMode = false;
 
-// 音声合成機能の使用可能性をチェック
-const speechSynthesisSupported = 'speechSynthesis' in window;
-
-// iOS音声初期化
-function initializeAudio() {
-    try {
-        // AudioContextを作成してiOSの音声を初期化
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        
-        // 無音の音声を再生してiOSの制限を解除
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.01);
-        
-        // 音声合成も初期化
-        if (speechSynthesisSupported) {
-            const utterance = new SpeechSynthesisUtterance('');
-            utterance.volume = 0;
-            speechSynthesis.speak(utterance);
-        }
-        
-        audioInitialized = true;
-        document.getElementById('initSection').style.display = 'none';
-        
-    } catch (error) {
-        console.log('Audio initialization error:', error);
+// デバッグ情報表示
+function showDebug(message) {
+    if (debugMode) {
+        const debugDiv = document.getElementById('debugInfo');
+        debugDiv.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+        debugDiv.style.display = 'block';
+        console.log('Debug:', message);
     }
 }
 
-// 中国語音声を取得する関数
-function getChineseVoice() {
-    const voices = speechSynthesis.getVoices();
-    return voices.find(voice => 
-        voice.lang.includes('zh') || 
-        voice.name.includes('Chinese') ||
-        voice.name.includes('中文') ||
-        voice.lang.includes('cmn')
-    ) || voices[0];
-}
-
-// 音声合成で中国語を読み上げる関数
-function speakChinese(text, button, errorDiv, successDiv) {
-    if (!speechSynthesisSupported) {
-        errorDiv.textContent = '音声合成がサポートされていません';
-        errorDiv.style.display = 'block';
-        return;
-    }
-    
-    if (!audioInitialized) {
-        errorDiv.textContent = '先に「音声を有効にする」ボタンをタップしてください';
-        errorDiv.style.display = 'block';
-        return;
-    }
-    
-    // 既存の音声を停止
-    speechSynthesis.cancel();
-    
-    button.disabled = true;
-    button.textContent = '再生中...';
-    errorDiv.style.display = 'none';
-    successDiv.style.display = 'none';
-    
-    // 少し待ってから音声合成を開始（iOS対策）
-    setTimeout(() => {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'zh-CN';
-        utterance.rate = 0.7;
-        utterance.pitch = 1;
-        utterance.volume = 1;
-        
-        // 中国語音声を設定
-        const chineseVoice = getChineseVoice();
-        if (chineseVoice) {
-            utterance.voice = chineseVoice;
+// 音声機能をテスト
+function testSpeechSynthesis() {
+    return new Promise((resolve) => {
+        if (!('speechSynthesis' in window)) {
+            resolve(false);
+            return;
         }
-        
-        utterance.onstart = () => {
-            successDiv.textContent = '再生中...';
-            successDiv.style.display = 'block';
-        };
-        
-        utterance.onend = () => {
-            button.disabled = false;
-            button.textContent = '🔊 再生';
-            successDiv.textContent = '再生完了';
-            setTimeout(() => {
-                successDiv.style.display = 'none';
-            }, 1500);
-        };
-        
-        utterance.onerror = (event) => {
-            button.disabled = false;
-            button.textContent = '🔊 再生';
-            errorDiv.textContent = '再生エラー: ' + event.error;
-            errorDiv.style.display = 'block';
-            console.log('Speech synthesis error:', event);
-        };
         
         try {
-            speechSynthesis.speak(utterance);
+            const testUtterance = new SpeechSynthesisUtterance('');
+            testUtterance.volume = 0;
+            testUtterance.rate = 1;
+            testUtterance.onend = () => resolve(true);
+            testUtterance.onerror = () => resolve(false);
+            
+            speechSynthesis.speak(testUtterance);
+            
+            // タイムアウト設定
+            setTimeout(() => resolve(true), 1000);
         } catch (error) {
-            button.disabled = false;
-            button.textContent = '🔊 再生';
-            errorDiv.textContent = '音声再生に失敗しました';
-            errorDiv.style.display = 'block';
-            console.log('Speech error:', error);
+            showDebug('Speech test error: ' + error.message);
+            resolve(false);
         }
-    }, 100);
+    });
 }
 
-// 初期化ボタンのイベントリスナー
-document.getElementById('initAudioBtn').addEventListener('click', initializeAudio);
+// 音声初期化関数
+async function initializeAudio() {
+    const initBtn = document.getElementById('initAudioBtn');
+    const initWarning = document.getElementById('initWarning');
+    const initSection = document.getElementById('initSection');
+    const readySection = document.getElementById('readySection');
+    
+    initBtn.disabled = true;
+    initBtn.textContent = '初期化中...';
+    initWarning.style.display = 'block';
+    
+    showDebug('Starting audio initialization');
+    
+    try {
+        // ステップ1: ユーザー操作によるオーディオコンテキスト作成
+        if (window.AudioContext || window.webkitAudioContext) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            if (audioContext.state === 'suspended') {
+                await audioContext.resume();
+                showDebug('AudioContext resumed');
+            }
+            
+            // 無音再生でiOSの制限を解除
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1);
+            
+            showDebug('Silent audio played');
+        }
+        
+        // ステップ2: 音声合成テスト
+        const speechWorks = await testSpeechSynthesis();
+        showDebug('Speech synthesis test: ' + speechWorks);
+        
+        if (!speechWorks) {
+            throw new Error('Speech synthesis not available');
+        }
+        
+        // ステップ3: 実際の音声テスト
+        await new Promise((resolve, reject) => {
+            const testUtterance = new SpeechSynthesisUtterance('测试');
+            testUtterance.lang = 'zh-CN';
+            testUtterance.volume = 0.1;
+            testUtterance.rate = 1;
+            
+            const timeout = setTimeout(() => {
+                speechSynthesis.cancel();
+                resolve(); // タイムアウトしても成功とみなす
+            }, 3000);
+            
+            testUtterance.onend = () => {
+                clearTimeout(timeout);
+                showDebug('Test speech completed');
+                resolve();
+            };
+            
+            testUtterance.onerror = (event) => {
+                clearTimeout(timeout);
+                showDebug('Test speech error: ' + event.error);
+                reject(new Error('Speech test failed: ' + event.error));
+            };
+            
+            speechSynthesis.speak(testUtterance);
+            showDebug('Test speech started');
+        });
+        
+        // 成功
+        audioInitialized = true;
+        initSection.style.display = 'none';
+        readySection.style.display = 'block';
+        showDebug('Audio initialization successful');
+        
+    } catch (error) {
+        showDebug('Initialization error: ' + error.message);
+        initBtn.disabled = false;
+        initBtn.textContent = '再試行';
+        initWarning.textContent = 'エラー: ' + error.message + ' - 再試行してください';
+        initWarning.className = 'message error-message';
+    }
+}
 
-const list = document.getElementById('wordsList');
+// 中国語を再生する関数
+function playChinese(text, button, messageDiv) {
+    if (!audioInitialized) {
+        showMessage(messageDiv, '先に音声機能を初期化してください', 'error');
+        return;
+    }
+    
+    if (currentUtterance) {
+        speechSynthesis.cancel();
+        currentUtterance = null;
+    }
+    
+    button.disabled = true;
+    button.className = 'play-button playing';
+    button.textContent = '再生中...';
+    
+    showDebug('Starting speech: ' + text);
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.8;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+    
+    // 利用可能な音声を取得
+    const voices = speechSynthesis.getVoices();
+    const chineseVoice = voices.find(voice => 
+        voice.lang.includes('zh') || 
+        voice.name.toLowerCase().includes('chinese') ||
+        voice.name.toLowerCase().includes('mandarin')
+    );
+    
+    if (chineseVoice) {
+        utterance.voice = chineseVoice;
+        showDebug('Using voice: ' + chineseVoice.name);
+    } else {
+        showDebug('No Chinese voice found, using default');
+    }
+    
+    utterance.onstart = () => {
+        showDebug('Speech started');
+        showMessage(messageDiv, '再生中...', 'success');
+    };
+    
+    utterance.onend = () => {
+        showDebug('Speech ended');
+        button.disabled = false;
+        button.className = 'play-button';
+        button.textContent = '🔊 再生';
+        showMessage(messageDiv, '再生完了', 'success');
+        currentUtterance = null;
+        
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 2000);
+    };
+    
+    utterance.onerror = (event) => {
+        showDebug('Speech error: ' + event.error);
+        button.disabled = false;
+        button.className = 'play-button';
+        button.textContent = '🔊 再生';
+        showMessage(messageDiv, 'エラー: ' + event.error, 'error');
+        currentUtterance = null;
+    };
+    
+    currentUtterance = utterance;
+    
+    try {
+        speechSynthesis.speak(utterance);
+    } catch (error) {
+        showDebug('Speech exception: ' + error.message);
+        button.disabled = false;
+        button.className = 'play-button';
+        button.textContent = '🔊 再生';
+        showMessage(messageDiv, 'エラー: ' + error.message, 'error');
+        currentUtterance = null;
+    }
+}
 
-// 音声の読み込み完了を待つ
+// メッセージ表示関数
+function showMessage(messageDiv, text, type) {
+    messageDiv.textContent = text;
+    messageDiv.className = 'message ' + type + '-message';
+    messageDiv.style.display = 'block';
+}
+
+// 単語リストを作成
 function createWordList() {
-    list.innerHTML = ''; // 既存のリストをクリア
+    const list = document.getElementById('wordsList');
+    list.innerHTML = '';
     
     words.forEach((word, index) => {
         const item = document.createElement('li');
         item.innerHTML = `
-            <div class="word-number">${index + 1}</div>
-            <div class="word-content">
-                <div>
-                    <strong style="font-size: 1.2em;">${word.chinese}</strong>
-                    <span class="pronunciation">
+            <div class="word-container">
+                <div class="word-number">${index + 1}</div>
+                <div class="word-info">
+                    <div class="chinese-text">${word.chinese}</div>
+                    <div class="pronunciation">
                         <span class="katakana">${word.katakana}</span>
-                        <span class="pinyin">(${word.pinyin})</span>
-                    </span>
-                    <button id="btn-${index}">🔊 再生</button>
+                        <span class="pinyin">${word.pinyin}</span>
+                    </div>
                 </div>
-                <div class="error-message" id="error-${index}"></div>
-                <div class="success-message" id="success-${index}"></div>
+                <button class="play-button" id="btn-${index}">🔊 再生</button>
             </div>
+            <div class="message" id="msg-${index}"></div>
         `;
         
         const button = item.querySelector(`#btn-${index}`);
-        const errorDiv = item.querySelector(`#error-${index}`);
-        const successDiv = item.querySelector(`#success-${index}`);
-        
-        button.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-        }, { passive: false });
+        const messageDiv = item.querySelector(`#msg-${index}`);
         
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            speakChinese(word.chinese, button, errorDiv, successDiv);
+            playChinese(word.chinese, button, messageDiv);
+        });
+        
+        // タッチイベントも追加
+        button.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            playChinese(word.chinese, button, messageDiv);
         });
         
         list.appendChild(item);
     });
 }
 
-// ページ読み込み時に音声リストを作成
-if (speechSynthesisSupported) {
+// イベントリスナー設定
+document.getElementById('initAudioBtn').addEventListener('click', initializeAudio);
+
+// 音声リスト読み込み完了時にリスト作成
+if ('speechSynthesis' in window) {
     speechSynthesis.onvoiceschanged = createWordList;
 }
 
 // 初期リスト作成
 createWordList();
 
-// タッチイベントの設定（iOS対策）
-document.addEventListener('touchstart', function() {}, {passive: true});
+// デバッグモード切り替え（画面を3回タップ）
+let tapCount = 0;
+document.addEventListener('click', () => {
+    tapCount++;
+    if (tapCount === 3) {
+        debugMode = !debugMode;
+        document.getElementById('debugInfo').style.display = debugMode ? 'block' : 'none';
+        if (debugMode) showDebug('Debug mode enabled');
+        tapCount = 0;
+    }
+    setTimeout(() => tapCount = 0, 1000);
+});
+
+// ページが隠れた時に音声停止
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden && currentUtterance) {
+        speechSynthesis.cancel();
+        currentUtterance = null;
+    }
+});
+
+showDebug('Script loaded');
 </script>
 </body>
 </html>
