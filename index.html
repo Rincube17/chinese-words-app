@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>中国語単語</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #2c3e50;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    min-height: 100vh;
+}
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #34495e;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+ul li {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: linear-gradient(135deg, #ffffff 0%, #f5f3f0 100%);
+    color: #2c3e50;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(52,73,94,0.1);
+    border: 1px solid rgba(74,144,226,0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+ul li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(52,73,94,0.15);
+    border-color: rgba(74,144,226,0.3);
+}
+.word-number {
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+.word-content {
+    flex: 1;
+}
+.pronunciation {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-left: 5px;
+}
+.katakana {
+    color: #95a5a6;
+    font-size: 0.75em;
+    display: block;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+.pinyin {
+    font-size: 0.9em;
+    line-height: 1;
+}
+button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    font-size: 0.9em;
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(74,144,226,0.3);
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+button:hover {
+    background: linear-gradient(135deg, #357abd 0%, #2e6da4 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74,144,226,0.4);
+}
+button:disabled {
+    background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 8px;
+    display: none;
+    font-weight: 500;
+}
+.success-message {
+    color: #27ae60;
+    font-size: 0.9em;
+    margin-top: 8px;
+    display: none;
+    font-weight: 500;
+}
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    ul li {
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .word-number {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8em;
+    }
+    .word-content {
+        width: 100%;
+    }
+    button {
+        padding: 6px 12px;
+        font-size: 0.8em;
+        margin-left: 0;
+        margin-top: 8px;
+        display: block;
+    }
+    .pronunciation {
+        display: block;
+        margin-left: 0;
+        margin-top: 5px;
+    }
+    .katakana {
+        display: block;
+        margin-bottom: 1px;
+    }
+    .pinyin {
+        display: block;
+    }
+}
+</style>
+</head>
+<body>
+<h1>中国語単語</h1>
+<div style="margin-bottom: 25px; padding: 15px; background: linear-gradient(135deg, #ffffff 0%, #f5f3f0 100%); color: #2c3e50; border-radius: 10px; border: 1px solid rgba(74,144,226,0.2); box-shadow: 0 2px 8px rgba(52,73,94,0.08);">
+    <strong style="color: #4a90e2;">💡 使用方法：</strong>音声ファイルがない場合は、ブラウザの音声合成機能を使用します。
+</div>
+<ul id="wordsList"></ul>
+<script>
+const words = [
+  {"chinese" : "第" , "pinyin" : "dì" , "katakana" : "ディー" , "audio" : "audio/di.mp3" },
+  {"chinese" : "一" , "pinyin" : "yī" , "katakana" : "イー" , "audio" : "audio/yi.mp3" },
+  {"chinese" : "课" , "pinyin" : "kè" , "katakana" : "クー" , "audio" : "audio/ke.mp3" },
+  {"chinese" : "你" , "pinyin" : "nǐ" , "katakana" : "ニー" , "audio" : "audio/ni.mp3" },
+  {"chinese" : "叫" , "pinyin" : "jiào" , "katakana" : "ジャオ" , "audio" : "audio/jiao.mp3" },
+  {"chinese" : "什么" , "pinyin" : "shénme" , "katakana" : "シェンムー" , "audio" : "audio/shenme.mp3" },
+  {"chinese" : "名字" , "pinyin" : "míngzi" , "katakana" : "ミンズー" , "audio" : "audio/mingzi.mp3" },
+  {"chinese" : "你好" , "pinyin" : "nǐ hǎo" , "katakana" : "ニーハオ" , "audio" : "audio/nihao.mp3" },
+  {"chinese" : "老师" , "pinyin" : "lǎoshi" , "katakana" : "ラオシー" , "audio" : "audio/laoshi.mp3" },
+  {"chinese" : "好" , "pinyin" : "hǎo" , "katakana" : "ハオ" , "audio" : "audio/hao.mp3" },
+  {"chinese" : "我" , "pinyin" : "wǒ" , "katakana" : "ウォー" , "audio" : "audio/wo.mp3" },
+  {"chinese" : "很" , "pinyin" : "hěn" , "katakana" : "ヘン" , "audio" : "audio/hen.mp3" },
+  {"chinese" : "好听" , "pinyin" : "hǎotīng" , "katakana" : "ハオティン" , "audio" : "audio/haoting.mp3" },
+  {"chinese" : "谢谢" , "pinyin" : "Xièxie" , "katakana" : "シエシエ" , "audio" : "audio/xiexie.mp3" },
+  {"chinese" : "是" , "pinyin" : "shì" , "katakana" : "シー" , "audio" : "audio/shi.mp3" },
+  {"chinese" : "中国" , "pinyin" : "Zhōngguó" , "katakana" : "ジョングオ" , "audio" : "audio/zhongguo.mp3" },
+  {"chinese" : "哪个" , "pinyin" : "nǎr" , "katakana" : "ナール" , "audio" : "audio/nar.mp3" },
+  {"chinese" : "人" , "pinyin" : "rén" , "katakana" : "レン" , "audio" : "audio/ren.mp3" },
+  {"chinese" : "苏州" , "pinyin" : "Sūzhōu" , "katakana" : "スージョウ" , "audio" : "audio/suzhou.mp3" },
+  {"chinese" : "地方" , "pinyin" : "dìfang" , "katakana" : "ディーファン" , "audio" : "audio/difang.mp3" },
+  {"chinese" : "您好" , "pinyin" : "Nín hǎo" , "katakana" : "ニンハオ" , "audio" : "audio/ninhao.mp3" },
+  {"chinese" : "你们好" , "pinyin" : "Nǐmen hǎo" , "katakana" : "ニーメンハオ" , "audio" : "audio/nimenhao.mp3" },
+  {"chinese" : "大家好" , "pinyin" : "Dàjiā hǎo" , "katakana" : "ダージャーハオ" , "audio" : "audio/dajiahao.mp3" },
+  {"chinese" : "早上好" , "pinyin" : "Zǎoshang hǎo" , "katakana" : "ザオシャンハオ" , "audio" : "audio/zaoshanghao.mp3" },
+  {"chinese" : "下午好" , "pinyin" : "Xiàwǔ hǎo" , "katakana" : "シャーウーハオ" , "audio" : "audio/xiawuhao.mp3" },
+  {"chinese" : "晚上好" , "pinyin" : "Wǎnshang hǎo" , "katakana" : "ワンシャンハオ" , "audio" : "audio/wanshanghao.mp3" },
+  {"chinese" : "不" , "pinyin" : "bù" , "katakana" : "ブー" , "audio" : "audio/bu.mp3" },
+  {"chinese" : "不客气" , "pinyin" : "Bú kèqi" , "katakana" : "ブークーチー" , "audio" : "audio/bukeqi.mp3" },
+  {"chinese" : "不用谢" , "pinyin" : "Bú yòng xiè" , "katakana" : "ブーヨンシエ" , "audio" : "audio/buyongxie.mp3" },
+  {"chinese" : "对不起" , "pinyin" : "Duìbuqǐ" , "katakana" : "ドゥイブチー" , "audio" : "audio/duibuqi.mp3" },
+  {"chinese" : "没关系" , "pinyin" : "Méi guānxi" , "katakana" : "メイグアンシー" , "audio" : "audio/meiguanxi.mp3" },
+  {"chinese" : "请多关照" , "pinyin" : "Qǐng duō guānzhào" , "katakana" : "チンドゥオグアンジャオ" , "audio" : "audio/qingduoguanzhao.mp3" },
+  {"chinese" : "请多指教" , "pinyin" : "Qǐng duō zhǐjiāo" , "katakana" : "チンドゥオジージャオ" , "audio" : "audio/qingduozhijiao.mp3" },
+  {"chinese" : "日本" , "pinyin" : "Rìběn" , "katakana" : "リーベン" , "audio" : "audio/riben.mp3" },
+  {"chinese" : "中国" , "pinyin" : "Zhōngguó" , "katakana" : "ジョングオ" , "audio" : "audio/zhongguo.mp3" },
+  {"chinese" : "韩国" , "pinyin" : "Hánguó" , "katakana" : "ハングオ" , "audio" : "audio/hanguo.mp3" },
+  {"chinese" : "美国" , "pinyin" : "Měiguó" , "katakana" : "メイグオ" , "audio" : "audio/meiguo.mp3" },
+  {"chinese" : "英国" , "pinyin" : "Yīngguó" , "katakana" : "インググオ" , "audio" : "audio/yingguo.mp3" },
+  {"chinese" : "德国" , "pinyin" : "Déguó" , "katakana" : "ドゥーグオ" , "audio" : "audio/deguo.mp3" },
+  {"chinese" : "法国" , "pinyin" : "Fǎguó" , "katakana" : "ファーグオ" , "audio" : "audio/faguo.mp3" },
+  {"chinese" : "俄罗斯" , "pinyin" : "Éluósī" , "katakana" : "オルオスー" , "audio" : "audio/eluosi.mp3" },
+  {"chinese" : "您" , "pinyin" : "nín" , "katakana" : "ニン" , "audio" : "audio/nin.mp3" },
+  {"chinese" : "贵姓" , "pinyin" : "guìxìng" , "katakana" : "グイシン" , "audio" : "audio/guixing.mp3" },
+  {"chinese" : "哪" , "pinyin" : "nǎ" , "katakana" : "ナー" , "audio" : "audio/na.mp3" },
+  {"chinese" : "国" , "pinyin" : "guó" , "katakana" : "グオ" , "audio" : "audio/guo.mp3" }
+];
+
+// 音声合成機能の使用可能性をチェック
+const speechSynthesisSupported = 'speechSynthesis' in window;
+
+// 中国語音声を取得する関数
+function getChineseVoice() {
+    const voices = speechSynthesis.getVoices();
+    return voices.find(voice => 
+        voice.lang.includes('zh') || 
+        voice.name.includes('Chinese') ||
+        voice.name.includes('中文')
+    ) || voices[0];
+}
+
+// 音声合成で中国語を読み上げる関数
+function speakChinese(text, button, errorDiv, successDiv) {
+    if (!speechSynthesisSupported) {
+        errorDiv.textContent = '音声合成がサポートされていません';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    button.disabled = true;
+    button.textContent = '再生中...';
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'zh-CN';
+    utterance.rate = 0.8;
+    utterance.pitch = 1;
+    
+    // 中国語音声を設定
+    const chineseVoice = getChineseVoice();
+    if (chineseVoice) {
+        utterance.voice = chineseVoice;
+    }
+    
+    utterance.onend = () => {
+        button.disabled = false;
+        button.textContent = '再生して聴く!';
+        successDiv.textContent = '再生完了';
+        successDiv.style.display = 'block';
+        setTimeout(() => {
+            successDiv.style.display = 'none';
+        }, 2000);
+    };
+    
+    utterance.onerror = (event) => {
+        button.disabled = false;
+        button.textContent = '再生して聴く!';
+        errorDiv.textContent = '再生エラー: ' + event.error;
+        errorDiv.style.display = 'block';
+    };
+    
+    speechSynthesis.speak(utterance);
+}
+
+// 音声ファイルを再生する関数
+function playAudioFile(audioPath, button, errorDiv, successDiv, chineseText) {
+    button.disabled = true;
+    button.textContent = '再生中...';
+    
+    const audio = new Audio(audioPath);
+    
+    audio.oncanplaythrough = () => {
+        audio.play().then(() => {
+            successDiv.textContent = '再生中...';
+            successDiv.style.display = 'block';
+        }).catch(error => {
+            console.log('音声ファイル再生失敗、音声合成を使用:', error);
+            speakChinese(chineseText, button, errorDiv, successDiv);
+        });
+    };
+    
+    audio.onended = () => {
+        button.disabled = false;
+        button.textContent = '再生して聴く!';
+        successDiv.textContent = '再生完了';
+        setTimeout(() => {
+            successDiv.style.display = 'none';
+        }, 2000);
+    };
+    
+    audio.onerror = () => {
+        console.log('音声ファイルが見つかりません、音声合成を使用');
+        speakChinese(chineseText, button, errorDiv, successDiv);
+    };
+    
+    // ファイルの存在確認のためロードを開始
+    audio.load();
+}
+
+const list = document.getElementById('wordsList');
+
+// 音声の読み込み完了を待つ
+if (speechSynthesisSupported) {
+    speechSynthesis.onvoiceschanged = createWordList;
+}
+createWordList();
+
+function createWordList() {
+    list.innerHTML = ''; // 既存のリストをクリア
+    
+    words.forEach((word, index) => {
+        const item = document.createElement('li');
+        item.innerHTML = `
+            <div class="word-number">${index + 1}</div>
+            <div class="word-content">
+                <div>
+                    <strong>${word.chinese}</strong>
+                    <span class="pronunciation">
+                        <span class="katakana">${word.katakana}</span>
+                        <span class="pinyin">(${word.pinyin})</span>
+                    </span>
+                    <button id="btn-${index}">再生して聴く!</button>
+                </div>
+                <div class="error-message" id="error-${index}"></div>
+                <div class="success-message" id="success-${index}"></div>
+            </div>
+        `;
+        
+        const button = item.querySelector(`#btn-${index}`);
+        const errorDiv = item.querySelector(`#error-${index}`);
+        const successDiv = item.querySelector(`#success-${index}`);
+        
+        button.onclick = () => {
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            playAudioFile(word.audio, button, errorDiv, successDiv, word.chinese);
+        };
+        
+        list.appendChild(item);
+    });
+}
+</script>
+</body>
+</html>
